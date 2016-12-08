@@ -527,18 +527,18 @@ def get_next_unnanotated(collection, start):
         # something like missing access permissions?
         raise CollectionNotAccessibleError
 
-    import sys
+    #import sys
 
-    sys.stderr.write( str(zip(base_names, [sum(stats) for stats in doc_stats])) + "\n")
+    #sys.stderr.write( str(zip(base_names, [sum(stats) for stats in doc_stats])) + "\n")
 
     new_name = base_names[-1]
-    sys.stderr.write("****\n")
+    #sys.stderr.write("****\n")
     for i, stats in enumerate(doc_stats):
-        sys.stderr.write("{}\t\t:{}\n".format( base_names[i], sum(stats)))
+        #sys.stderr.write("{}\t\t:{}\n".format( base_names[i], sum(stats)))
         if sum(stats) == 0:
             new_name = base_names[i]
             break
-    sys.stderr.write("{}\n".format(new_name))
+    #sys.stderr.write("{}\n".format(new_name))
 
     return {"new_name": new_name}
 
