@@ -511,6 +511,8 @@ def _inject_annotation_type_conf(dir_path, json_dic=None):
 
 #JPG:
 def get_next_unnanotated(collection, start):
+    import sys
+
     directory = collection
     start = int(start)
     new_pos = start
@@ -526,10 +528,12 @@ def get_next_unnanotated(collection, start):
         stats_types, doc_stats = get_statistics(real_dir, base_names)
     except OSError:
         # something like missing access permissions?
+        sys.write("Exception\n")
         raise CollectionNotAccessibleError
 
     if start < len(doc_stats):
         for i in range(start, len(doc_stats)):  # Have to account for "." , ".."
+            sys.write("{}\t\t:{}\n".format(base_names[i], sum(doc_stats[i])))
             if sum(doc_stats[i]) == 0:
                 new_pos = i + 1
                 break
