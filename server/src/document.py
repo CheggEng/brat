@@ -522,7 +522,7 @@ def get_next_unnanotated(collection, start):
 
 
     try:
-        stats_types, doc_stats = get_statistics(real_dir, base_names)
+        stats_types, doc_stats = get_statistics(real_dir, base_names, use_cache=False)
     except OSError:
         # something like missing access permissions?
         raise CollectionNotAccessibleError
