@@ -1577,17 +1577,23 @@ var VisualizerUI = (function($, window, undefined) {
 
       //JPG
       var refreshAndMove = function(response) {
-        dispatcher.post('setDocument', [selectorData.items[response.new_pos][2],
-                                        selectorData.items[response.new_pos][1]]);
+        var newPos = 0;
+        for(newPos = 0; newPos < selectorData.items.length; newPos++)
+        {
+            if (selectorData.items[newPos][2] == response.new_name)
+                break;
+        }
+        dispatcher.post('setDocument', [selectorData.items[newPos][2],
+                                        selectorData.items[newPos][1]]);
         return false;
 
       }
 
       var nextUnannotated = function(dir) {
-        var pos = currentSelectorPosition();
+        var currentName = selectorData.items[currentSelectorPosition()][2];
         // Request the server to reload collection:
         dispatcher.post('ajax',
-                        [{ action: 'get_next_unnanotated', collection: selectorData.collection, start: pos },
+                        [{ action: 'get_next_unnanotated', collection: selectorData.collection, start: currentName },
                         'refreshAndMove',
                          {collection: selectorData.collection, keep: true}]);
 

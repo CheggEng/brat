@@ -511,34 +511,33 @@ def _inject_annotation_type_conf(dir_path, json_dic=None):
 
 #JPG:
 def get_next_unnanotated(collection, start):
-    import sys
-
     directory = collection
-    start = int(start)
-    new_pos = start
     real_dir = real_directory(directory)
-
     assert_allowed_to_read(real_dir)
 
     # Get the document names
-    base_names = [fn[0:-4] for fn in _listdir(real_dir)
-                  if fn.endswith('txt')]
+    base_names = sorted([fn[0:-4] for fn in _listdir(real_dir)  if fn.endswith('txt') and not fn.startswith('.')])
+    start_pos = base_names.index(start)
+    base_names = base_names[start_pos+1 : ] + base_names[ : start_pos+1]
+
 
     try:
         stats_types, doc_stats = get_statistics(real_dir, base_names)
     except OSError:
         # something like missing access permissions?
-        sys.stderr.write("Exception\n")
         raise CollectionNotAccessibleError
 
-    if start < len(doc_stats):
-        for i in range(start, len(doc_stats)):  # Have to account for "." , ".."
-            sys.stderr. write("{}\t\t:{}\n".format(base_names[i], sum(doc_stats[i])))
-            if sum(doc_stats[i]) == 0:
-                new_pos = i + 1
-                break
+    #import sys
 
-    return {"new_pos": new_pos}
+    new_name = base_names[-1]
+    for i, stats in enumerate(doc_stats):
+        #sys.stderr.write("{}\t\t:{}\n".format( base_names[i], sum(stats)))
+        if sum(stats) == 0:
+            new_name = base_names[i]
+            break
+    #sys.stderr.write("{}\n".format(new_name))
+
+    return {"new_name": new_name}
 
 
 # TODO: This is not the prettiest of functions
