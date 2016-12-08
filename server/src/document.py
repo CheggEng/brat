@@ -529,6 +529,8 @@ def get_next_unnanotated(collection, start):
 
     import sys
 
+    sys.stderr.write( str(zip(base_names, [sum(stats) for stats in doc_stats])) + "\n")
+
     new_name = base_names[-1]
     sys.stderr.write("****\n")
     for i, stats in enumerate(doc_stats):
