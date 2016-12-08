@@ -522,10 +522,13 @@ def get_next_unnanotated(collection, start):
     base_names = [fn[0:-4] for fn in _listdir(real_dir)
                   if fn.endswith('txt')]
 
+    import sys
+    sys.stderr.write("start: " + str(start))
     try:
         stats_types, doc_stats = get_statistics(real_dir, base_names)
     except OSError:
         # something like missing access permissions?
+        sys.stderr.write("exception!")
         raise CollectionNotAccessibleError
 
     if start < len(doc_stats):
@@ -533,6 +536,7 @@ def get_next_unnanotated(collection, start):
             if sum(doc_stats[i]) == 0:
                 new_pos = i + 1
                 break
+    sys.stderr.write("new post: " + str(new_pos))
     return {"new_pos": new_pos}
 
 
