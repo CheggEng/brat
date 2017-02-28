@@ -34,7 +34,7 @@ import dispatch
 import docimport
 import document
 import download
-import filelock
+import brat_filelock
 import gtbtokenize
 import jsonwrap
 import message
